@@ -1,10 +1,10 @@
 const express=require('express')
 const bodyParser=require('body-parser')
-const team_router=require('../backend/router/team_route')
-const associate_router=require('../backend/router/associate_route');
-const user_router=require('../backend/router/user_route');
-const issues_router=require('../backend/router/issues_route');
-const oncall_router=require('../backend/router/oncall_route');
+const team_router=require('../docs/router/team_route')
+const associate_router=require('../docs/router/associate_route');
+const user_router=require('../docs/router/user_route');
+const issues_router=require('../docs/router/issues_route');
+const oncall_router=require('../docs/router/oncall_route');
 const path=require("path");
 
 const mongoose=require('mongoose');
