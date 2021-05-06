@@ -2,7 +2,7 @@
   "name": "ng-complete-guide-update",
   "version": "0.0.0",
   "scripts": {
-    "start-server": "nodemon server.js"
+    "start-server": "nodemon ./docs/server.js"
   },
   "private": true,
   "dependencies": {
