@@ -1,0 +1,30 @@
+.example-container .mat-form-field + .mat-form-field {
+    margin-left: 8px;
+  }
+  
+  .example-right-align {
+    text-align: right;
+  }
+  
+  input.example-right-align::-webkit-outer-spin-button,
+  input.example-right-align::-webkit-inner-spin-button {
+    display: none;
+  }
+  
+  input.example-right-align {
+    -moz-appearance: textfield;
+  }
+  .login-box{
+    margin-left: 30%;
+    margin-top: 15%;
+}
+
+.example-card {
+    max-width: 400px;
+    min-height: 100px;
+  }
+  
+  .example-header-image {
+    background-image: url('src/app/pictures/BT_logo.jpg');
+    background-size: cover;
+  }

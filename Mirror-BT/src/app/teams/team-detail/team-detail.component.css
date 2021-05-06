@@ -1,0 +1,9 @@
+.example-card {
+    max-width: 400px;
+    min-height: 100px;
+  }
+  
+  .example-header-image {
+    background-image: url('src/app/pictures/BT_logo.jpg');
+    background-size: cover;
+  }

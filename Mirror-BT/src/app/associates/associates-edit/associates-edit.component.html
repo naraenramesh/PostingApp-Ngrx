@@ -1,0 +1,71 @@
+<h1 mat-dialog-title *ngIf="edit_trigger"> Edit the existing Associate:</h1>
+<h1 mat-dialog-title *ngIf="!edit_trigger"> Add a new associate:</h1>
+
+<mat-dialog-content>
+  <form class="example-form" [formGroup]="associateForm" (ngSubmit)="OnSubmit()">
+  
+    <table class="example-full-width" cellspacing="0"><tr>
+      <td><mat-form-field class="example-full-width">
+        <mat-label >Associate Name</mat-label>
+        <input id="empname" formControlName="empname" matInput>
+      </mat-form-field></td>
+      <td><mat-form-field class="example-full-width">
+        <mat-label>Associate Cog EmailID</mat-label>
+        <input id="empcogemailid" formControlName="empcogemailid" matInput>
+      </mat-form-field></td>
+    </tr></table>
+  
+    <p>
+        
+	  <mat-form-field class="example-full-width">
+        <mat-label>Associate BT EmailID</mat-label>
+        <input id="empBTemailid" formControlName="empBTemailid" matInput>
+      </mat-form-field>
+      <mat-form-field class="example-full-width">
+        <mat-label>Associate Contact number</mat-label>
+        <textarea id="empcontactno" formControlName="empcontactno" matInput>    </textarea>
+    </mat-form-field>
+    </p>
+  
+    <table class="example-full-width" cellspacing="0"><tr>
+      <td><mat-form-field class="example-full-width">
+        <mat-label>Associate UIN</mat-label>
+        <input id="empUIN" formControlName="empUIN" matInput placeholder="Mention BT EIN">
+      </mat-form-field></td>
+  </tr></table>
+
+  <mat-form-field class="example-chip-list">
+    <mat-chip-list #chipList aria-label="team selection">
+      <mat-chip
+        *ngFor="let team of teams"
+        [selectable]="selectable"
+        [removable]="removable"
+        (removed)="remove(team)">
+        {{team}}
+        <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+      </mat-chip>
+      <input formControlName="empTeams" 
+        placeholder="Select the teams..."
+        #teamInput id="empTeams"
+        [formControl]="teamCtrl"
+        [matAutocomplete]="auto"
+        [matChipInputFor]="chipList"
+        [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+        (matChipInputTokenEnd)="add($event)">
+    </mat-chip-list>
+    <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+      <mat-option *ngFor="let team of filteredOptions | async" [value]="team">
+        {{team}}
+      </mat-option>
+    </mat-autocomplete>
+  </mat-form-field>
+
+  <mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close>Cancel</button>
+    <button mat-button [mat-dialog-close]="true" 
+     type="submit" [disabled]="!associateForm.valid">Update</button>
+  </mat-dialog-actions>
+
+</form>
+
+</mat-dialog-content>

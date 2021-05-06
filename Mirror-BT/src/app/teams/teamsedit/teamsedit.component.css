@@ -1,0 +1,14 @@
+.example-form {
+    min-width: 550px;
+    max-width: 900px;
+    width: 100%;
+    min-height :300px;
+  }
+  
+  .example-full-width {
+    width: 100%;
+  }
+  
+  td {
+    padding-right: 8px;
+  }

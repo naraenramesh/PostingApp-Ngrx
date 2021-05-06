@@ -1,0 +1,58 @@
+<ng-template appPlaceholder></ng-template>
+<div class="row">
+  <div class="col-xs-12 col-md-6 col-md-offset-3">
+<div class="login-box">      
+<mat-card class="example-card">
+    <mat-card-header>
+      <div mat-card-avatar class="example-header-image"></div>
+      <mat-card-title>Get Started</mat-card-title>
+
+    </mat-card-header>
+
+    <div *ngIf="isLoading" style="text-align: center;">
+      <app-loading></app-loading>
+    </div>
+    <form #authForm="ngForm" (ngSubmit)="onSubmit(authForm)" *ngIf="!isLoading">
+      <div class="form-group">
+	  <mat-form-field>
+         <mat-label>E-Mail</mat-label>
+        <input matInput
+          type="email"
+          id="email"
+        
+          ngModel
+          name="email"
+          required
+          email 
+        />
+		</mat-form-field>
+      </div>
+      <div class="form-group">
+ <mat-form-field>
+    <mat-label>Enter your password</mat-label>
+		<input matInput
+          id="password"
+         
+          ngModel
+          name="password"
+          required
+          minlength="6"
+		  [type]="hide ? 'password' : 'text'"
+        />
+<a mat-icon-button matSuffix (click)="hide = !hide">
+    <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+</a>
+  </mat-form-field>
+      </div>
+      <div>
+        <button mat-button
+            type="submit"
+          [disabled]="!authForm.valid">
+        Login </button>
+        
+      </div>
+    </form>
+	</mat-card>
+</div>
+  </div>
+</div>

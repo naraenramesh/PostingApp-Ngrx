@@ -1,0 +1,49 @@
+<mat-form-field>
+    <mat-label>Filter</mat-label>
+    <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Mia" #input>
+  </mat-form-field>
+  
+  <div class="mat-elevation-z8">
+    <table mat-table [dataSource]="dataSource" matSort>
+  
+  
+      <ng-container matColumnDef="empname">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
+        <td mat-cell *matCellDef="let row"> {{row.empname}} </td>
+      </ng-container>
+  
+  
+      <ng-container matColumnDef="empcogemailid">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Cog-EmailID </th>
+        <td mat-cell *matCellDef="let row"> {{row.empcogemailid}}</td>
+      </ng-container>
+  
+  
+      <ng-container matColumnDef="empBTemailid">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> BT-EmailID </th>
+        <td mat-cell *matCellDef="let row"> {{row.empBTemailid}} </td>
+      </ng-container>
+  
+  
+      <ng-container matColumnDef="empUIN">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> UIN </th>
+        <td mat-cell *matCellDef="let row"> {{row.empUIN}} </td>
+      </ng-container>
+  
+  
+      <ng-container matColumnDef="empcontactno">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Contact Number </th>
+        <td mat-cell *matCellDef="let row"> {{row.empcontactno}} </td>
+      </ng-container>
+      
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  
+  
+      <tr class="mat-row" *matNoDataRow>
+        <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
+      </tr>
+    </table>
+  
+  <mat-paginator  [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+  </div>

@@ -1,0 +1,40 @@
+<h1 mat-dialog-title *ngIf="edit_trigger"> Edit the existing Team:</h1>
+<h1 mat-dialog-title *ngIf="!edit_trigger"> Add a new Team:</h1>
+
+<mat-dialog-content>
+  <form class="example-form" [formGroup]="teamForm" (ngSubmit)="OnSubmit()">
+
+    <table class="example-full-width" cellspacing="0"><tr>
+      <td><mat-form-field class="example-full-width">
+        <mat-label >Team Name</mat-label>
+        <input id="teamname" formControlName="teamname" matInput>
+      </mat-form-field></td>
+      <td><mat-form-field class="example-full-width">
+        <mat-label>Team EmailID</mat-label>
+        <input id="teammailId" formControlName="teammailId" matInput>
+      </mat-form-field></td>
+    </tr></table>
+
+    <p>
+      <mat-form-field class="example-full-width">
+        <mat-label>Team Description</mat-label>
+        <textarea id="teamdesc" formControlName="teamdesc" matInput placeholder="Tell about what this team could support"></textarea>
+      </mat-form-field>
+    </p>
+
+    <table class="example-full-width" cellspacing="0"><tr>
+      <td><mat-form-field class="example-full-width">
+        <mat-label>Team Queue</mat-label>
+        <input id="teamqueue" formControlName="teamqueue" matInput placeholder="Mention HPSM or Autofix Queue">
+      </mat-form-field></td>
+  </tr></table>
+  <mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close>Cancel</button>
+    <button mat-button [mat-dialog-close]="true"
+     type="submit" [disabled]="!teamForm.valid">Update</button>
+  </mat-dialog-actions>
+
+</form>
+
+</mat-dialog-content>
+

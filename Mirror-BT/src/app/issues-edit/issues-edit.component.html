@@ -1,0 +1,63 @@
+<h1 mat-dialog-title *ngIf="edit_trigger"> Edit the existing Issue:</h1>
+<h1 mat-dialog-title *ngIf="!edit_trigger"> Add a new Issue:</h1>
+
+<mat-dialog-content>
+  <form class="example-form" [formGroup]="issuesForm" (ngSubmit)="OnSubmit()">
+  
+    <table class="example-full-width" cellspacing="0"><tr>
+      <td><mat-form-field class="example-full-width">
+        <mat-label >Issue Title</mat-label>
+        <input id="issue_title" formControlName="issue_title" matInput>
+      </mat-form-field></td>
+      <td>
+      <mat-form-field class="example-full-width" appearance="fill">
+        <mat-label>Choose a date</mat-label>
+        <input id="issue_date" formControlName="issue_date" matInput [min]="today" [matDatepicker]="picker">
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+    </td>
+    </tr></table>
+  
+  <div class="form-group">
+    <mat-form-field appearance="fill">
+        <mat-label>Choose Issue status</mat-label>
+        <mat-select formControlName="issue_status" name="issue_status" id="issue_status" required>
+          <mat-option value="Open">Open</mat-option>
+          <mat-option value="Closed">Closed</mat-option>
+        </mat-select>
+      </mat-form-field>
+</div>
+
+<div class="form-group">
+    <mat-form-field appearance="fill">
+        <mat-label>Choose issue type</mat-label>
+        <mat-select formControlName="issue_type" name="issue_type" id="issue_type" required>
+          <mat-option value="Proactive">Proactive</mat-option>
+          <mat-option value="Reactive">Reactive</mat-option>
+        </mat-select>
+      </mat-form-field>
+</div>
+
+  
+    <p>
+      <mat-form-field class="example-full-width">
+        <mat-label>Issue Description</mat-label>
+        <textarea id="issue_desc" formControlName="issue_desc" matInput placeholder="Tell about this issue in detail"></textarea>
+      </mat-form-field>
+    </p>
+   <p>
+      <mat-form-field class="example-full-width">
+        <mat-label>Issue Updates</mat-label>
+        <textarea id="issue_updates" formControlName="issue_updates" matInput placeholder="Tell about the progress on solving this issue"></textarea>
+      </mat-form-field>
+    </p>
+  <mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close>Cancel</button>
+    <button mat-button [mat-dialog-close]="true" 
+     type="submit"[disabled]="!issuesForm.valid">Update</button>
+  </mat-dialog-actions>
+
+</form>
+
+</mat-dialog-content>
