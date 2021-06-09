@@ -1,7 +1,7 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject} from 'rxjs';
-import { map, tap } from 'rxjs/operators';
+import { BehaviorSubject, throwError} from 'rxjs';
+import { catchError, map, tap } from 'rxjs/operators';
 import { Team } from './team.model';
 
 @Injectable()
@@ -20,7 +20,7 @@ export class TeamService{
     //{teamname:'EFB',teamdesc:'Postpay',teamqueue:'TPEECOGBSM',teammailId:'cognizantteam@cognizant.com'},
     //{teamname:'Topics',teamdesc:'Prepay',teamqueue:'TPEECOGNEXUS',teammailId:'cognizantteam@cognizant.com'},
     //{teamname:'DBA',teamdesc:'Postpay',teamqueue:'TPEECOGBSM',teammailId:'cognizantteam@cognizant.com'},
-  
+
 
     ind;
 teamsStatus=new BehaviorSubject<Team[]>([]);
@@ -30,27 +30,30 @@ constructor(private http:HttpClient){}
 
 getTeams()
 {
-    return this.http.get<any>('http://localhost:3000/api/teams')
-    .pipe(map((teamdata)=>
+    return this.http.get<any>('https://mirrorview.herokuapp.com/api/teams')
+    .pipe(catchError((em:HttpErrorResponse)=>{
+      let errorMessage=em.error.error
+      return throwError(errorMessage);
+    }),map((teamdata)=>
     {
    return  teamdata.map((info)=>
    {
-    return { 
+    return {
       id:info._id,
     teamname:info.teamname,
   teamdesc:info.teamdesc,
   teamqueue:info.teamqueue,
   teammailId:info.teammailId
 }
-   })  
+   })
     }),tap(teams_loaded => {
       this.teams=teams_loaded;
-      console.log(this.teams)
+      //console.log(this.teams)
       this.teamsStatus.next(this.teams.slice())
       })
     )
   }
-  
+
 getTeamNames()
 {
 //console.log(this.teams)
@@ -63,52 +66,82 @@ return this.teams.find(name=>name.teamname===name1);
 }
 
 
-getExlcudeTeamNames(name1?:string)
-{
-    if(name1)
-    {
-      this.ind=this.teams.indexOf(this.teams.find(name=>name.teamname===name1))
- //this.teams.splice(this.ind,1);
-}
-return this.teams.map(tname =>tname.teamname.toUpperCase())
-
-}
-
 
 deleteTeam(name1:string)
 {
-  this.http.delete("http://localhost:3000/api/teams/" + name1)
-  .subscribe();
-    this.ind =this.teams.indexOf(this.teams.find(name=>name.teamname===name1))
-    this.teams.splice(this.ind,1);
-this.teamsStatus.next(this.teams.slice())
+ return this.http.delete<any>("https://mirrorview.herokuapp.com/api/teams/" + name1)
+  .pipe(catchError((em:HttpErrorResponse)=>{
+    let errorMessage=em.error.error
+    return throwError(errorMessage);
+  }),map((teamdata)=>
+  {
+ return  teamdata.map((info)=>
+ {
+  //console.log(info)
+  return {
+    id:info._id,
+  teamname:info.teamname,
+teamdesc:info.teamdesc,
+teamqueue:info.teamqueue,
+teammailId:info.teammailId
+}
+ })
+  }),tap(teams_loaded => {
+    this.teams=teams_loaded;
+    //console.log(this.teams)
+    this.teamsStatus.next(this.teams.slice())
+    })
+  )
 }
 
 updateTeam(team:String,teamContent:Team)
 {
-     this.ind =this.teams.indexOf(this.teams.find(name=>name.teamname===team))
-    this.teams[this.ind]=teamContent;
-    console.log(teamContent)
-this.teamsStatus.next(this.teams.slice());
-this.http.put('http://localhost:3000/api/teams/'+ team ,teamContent)
-.subscribe();
+return this.http.put<any>('https://mirrorview.herokuapp.com/api/teams/'+ team ,teamContent)
+.pipe(catchError((em:HttpErrorResponse)=>{
+  let errorMessage=em.error.error
+  return throwError(errorMessage);
+}),map((info)=>
+{
+  //console.log("g")
+  //console.log(info)
+return {
+  id:info._id,
+teamname:info.teamname,
+teamdesc:info.teamdesc,
+teamqueue:info.teamqueue,
+teammailId:info.teammailId
+}
+}),tap(team_loaded => {
+  this.teams[this.teams.indexOf(this.teams.find(name=>name.teamname === teamContent.teamname))]=team_loaded;
+  //console.log(team)
+  //console.log(this.teams)
+  this.teamsStatus.next(this.teams.slice())
+  })
+)
 }
 addTeam(team:Team)
 {
-       
-this.http.post<{teamId:string}>('http://localhost:3000/api/teams',team)
-.subscribe(response => {
- 
-const id=response.teamId;
-console.log(id)
-team.id=id;
-console.log(team);
-this.teams.push(team);
-    this.teamsStatus.next(this.teams.slice());
- 
-});
 
+return this.http.post<any>('https://mirrorview.herokuapp.com/api/teams',team)
+.pipe(catchError((em:HttpErrorResponse)=>{
+  let errorMessage=em.error.error
+  return throwError(errorMessage);
+}),map((info)=>
+{
+return {
+  id:info._id,
+teamname:info.teamname,
+teamdesc:info.teamdesc,
+teamqueue:info.teamqueue,
+teammailId:info.teammailId
 }
-  
+}),tap(team_loaded => {
+  this.teams.push(team_loaded);
+  //console.log(this.teams)
+  this.teamsStatus.next(this.teams.slice())
+  })
+)
+}
+
 
 }

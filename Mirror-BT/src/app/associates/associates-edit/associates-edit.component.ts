@@ -18,7 +18,7 @@ import { TeamService } from 'src/app/teams/team.service';
 })
 export class AssociatesEditComponent implements OnInit {
   constructor(private ts:AssociateService,private teamservice:TeamService,private ru:ActivatedRoute,
-    private rs:Router,private hs:HelperService) 
+    private rs:Router,private hs:HelperService)
   {}
   empnames:string[];
   empname:string;
@@ -30,7 +30,7 @@ filteredOptions: Observable<string[]>;
 myControl = new FormControl();
 
 ngOnInit() {
-   
+
     this.edit_trigger=false;
 
     this.ts.associatenameSelected.subscribe((name:string)=>{
@@ -49,7 +49,7 @@ this.filteredOptions = this.myControl.valueChanges.pipe(
   map(value => this._filter(value))
 );
 }
- 
+
    initForm()
   {
     let name='';
@@ -58,9 +58,10 @@ this.filteredOptions = this.myControl.valueChanges.pipe(
     let UIN='';
 	let contact='';
 	let teams=[];
-	
+
 if(this.edit_trigger)
 {
+  //console.log(this.empname)
     this.empSel = this.ts.getAssociate(this.empname);
      name=this.empSel.empname;
     cogmail=this.empSel.empcogemailid
@@ -68,26 +69,26 @@ if(this.edit_trigger)
     contact=this.empSel.empcontactno;
     UIN=this.empSel.empUIN;
     teams=this.empSel.empTeams;
- 
-    this.empnames=this.ts.getExlcudeAssociateNames(name); 
+//console.log(teams)
+    this.empnames=this.ts.getExlcudeAssociateNames(name);
   }
 
-  this.empnames=this.ts.getExlcudeAssociateNames(); 
+  this.empnames=this.ts.getExlcudeAssociateNames();
 
   this.associateForm =new FormGroup({
+empId:new FormControl(''),
 empname:new FormControl(name,[Validators.required,this.forbiddennames.bind(this)]),
 empcogemailid: new FormControl(cogmail,[Validators.required, Validators.email]),
 empBTemailid: new FormControl(btmail,[Validators.required,Validators.email]),
-empcontactno:new FormControl(contact,[Validators.required,Validators.maxLength(10)]),
-empUIN:new FormControl(UIN,[Validators.required]),
-empTeams:new FormControl(teams)    
+empcontactno:new FormControl(contact,[Validators.required,Validators.maxLength(10),Validators.pattern('[0-9]*')]),
+empUIN:new FormControl(UIN,[Validators.required,Validators.maxLength(9),Validators.pattern('[0-9]*')]),
+empTeams:new FormControl(teams)
       })
-       
     }
- 
+
 forbiddennames(control:FormControl):{[s:string]:boolean}
-{ 
- 
+{
+
 if(this.empname.indexOf(control.value.toUpperCase())!== -1)
   return {'nameforbid':true}
   else
@@ -96,20 +97,36 @@ if(this.empname.indexOf(control.value.toUpperCase())!== -1)
 
 OnSubmit()
 {
-this.associateForm.patchValue({empTeams:this.teams})
-  console.log(this.associateForm.value)  
   if(this.edit_trigger)
   {
-  this.ts.updateAssociate(this.empname,this.associateForm.value);
-  
-this.rs.navigate(['../'],{relativeTo:this.ru})
+
+this.associateForm.patchValue({empId:this.empSel.empId})
+console.log(this.associateForm.value)
+  this.ts.updateAssociate(this.empname,this.associateForm.value).subscribe(emp_loaded => {
+
+
 this.hs.openSnackBar("Associate Details Updated","Success")
+this.rs.navigate(['../../associates'],{relativeTo:this.ru})
+  },
+  errorMessage => {
+    this.hs.openSnackBar(errorMessage,'Error');
+
+  }
+);
 }
 else
 {
-  this.ts.addAssociate(this.associateForm.value);
-  this.rs.navigate(['../'],{relativeTo:this.ru})
+  this.ts.addAssociate(this.associateForm.value).subscribe(emp_loaded => {
+
 this.hs.openSnackBar("New Associate Added","Success")
+this.rs.navigate(['../associates'],{relativeTo:this.ru})
+  },
+  errorMessage => {
+    this.hs.openSnackBar('errorMessage','Error');
+
+  }
+);
+
 }
 this.ts.associatenameSelected.next('');
 }
@@ -119,7 +136,7 @@ visible = true;
   removable = true;
   separatorKeysCodes: number[] = [ENTER, COMMA];
   teamCtrl = new FormControl();
-  teams: string[] = ['Nexus'];
+  teams: string[]=[];
   teamsshow: string[];
 
   @ViewChild('teamInput') teamInput: ElementRef<HTMLInputElement>;
@@ -130,7 +147,7 @@ visible = true;
   private _filter(value: string): string[] {
     const filterValue = value.toLowerCase();
    this.teamsshow=this.teamservice.getTeamNames();
-   console.log(this.teamsshow)
+   //console.log(this.teamsshow)
     return this.teamsshow.filter(option => option.toLowerCase().indexOf(filterValue) === 0);
   }
 

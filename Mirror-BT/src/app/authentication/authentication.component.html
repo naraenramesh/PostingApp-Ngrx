@@ -1,7 +1,5 @@
-<ng-template appPlaceholder></ng-template>
-<div class="row">
-  <div class="col-xs-12 col-md-6 col-md-offset-3">
-<div class="login-box">      
+
+<div class="login-box">
 <mat-card class="example-card">
     <mat-card-header>
       <div mat-card-avatar class="example-header-image"></div>
@@ -19,11 +17,11 @@
         <input matInput
           type="email"
           id="email"
-        
+
           ngModel
           name="email"
           required
-          email 
+          email
         />
 		</mat-form-field>
       </div>
@@ -32,7 +30,7 @@
     <mat-label>Enter your password</mat-label>
 		<input matInput
           id="password"
-         
+
           ngModel
           name="password"
           required
@@ -47,12 +45,11 @@
       <div>
         <button mat-button
             type="submit"
-          [disabled]="!authForm.valid">
+          [disabled]="!authForm.valid" class="loginbutton">
         Login </button>
-        
+
       </div>
     </form>
 	</mat-card>
 </div>
-  </div>
-</div>
+

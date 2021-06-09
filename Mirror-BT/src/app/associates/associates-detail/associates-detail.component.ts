@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router, Params } from '@angular/router';
 import { AuthService } from 'src/app/authentication/auth.service';
+import { HelperService } from 'src/app/shared/helper.service';
 import { AssociatesEditComponent } from '../associates-edit/associates-edit.component';
 import { Associate } from '../associates.model';
 import { AssociateService } from '../associates.service';
@@ -14,7 +15,7 @@ import { AssociateService } from '../associates.service';
 export class AssociatesDetailComponent implements OnInit {
 
   constructor(private ts:AssociateService,private rs:ActivatedRoute,
-    private as: AuthService,private ru:Router,private dialog:MatDialog) { }
+    private as: AuthService,private ru:Router,private dialog:MatDialog,private hs:HelperService) { }
 
 aname:string;
 SelectedAssociate:Associate
@@ -33,8 +34,10 @@ console.log(this.SelectedAssociate)
 })
 this.as.user.subscribe((data)=>
   {
+    if(data)
+    {
 this.edit_associate=data.privilege;
-
+    }
   })
   if( this.edit_associate !== 'Read')
   {
@@ -46,14 +49,23 @@ this.edit_associate=data.privilege;
 
 OneditAssociate()
 {
-  this.ts.empnameSelected.next(this.aname);
+  this.ts.associatenameSelected.next(this.aname);
     this.dialog.open(AssociatesEditComponent);
 }
 
 OndeleteAssociate()
 {
-  this.ts.deleteAssociate(this.aname);
-this.ru.navigate(['../../'],{relativeTo:this.rs})
+  this.ts.deleteAssociate(this.aname).subscribe(resData => {
+
+
+    this.hs.openSnackBar("Associate Details Deleted","Success")
+    this.ru.navigate(['../../associates'],{relativeTo:this.rs})
+      },
+      errorMessage => {
+        this.hs.openSnackBar(errorMessage,'Error');
+
+      }
+    );
 }
 
 }

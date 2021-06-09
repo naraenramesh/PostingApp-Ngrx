@@ -21,21 +21,25 @@ import { AuthService } from 'src/app/authentication/auth.service';
 export class TeamsListComponent implements OnInit {
 
  tname;
-  
+
   teamsshow: string[];
   teamsUpdated:Team[]
 
   constructor(private ts:TeamService, private as: AuthService,private rs:Router,private ru:ActivatedRoute,
     private dialog:MatDialog)   {}
-  
-  
+
+
   add_trigger:boolean
 
   add_team:string;
 ngOnInit() {
+  this.rs.routeReuseStrategy.shouldReuseRoute = () => false;
   this.as.user.subscribe((data)=>
   {
+    if(data)
+    {
 this.add_team=data.privilege;
+}
   })
   if( this.add_team !== 'Read')
   {
@@ -45,7 +49,7 @@ this.add_team=data.privilege;
   this.ts.teamsStatus.subscribe((team:Team[])=>{
 this.teamsUpdated=team
   })
- 
+
  this.filteredOptions = this.myControl.valueChanges.pipe(
   startWith(''),
   map(value => this._filter(value))
@@ -75,7 +79,7 @@ Onselect(evt:any)
 
   OnaddnewTeam()
   {
-    
+
     this.rs.navigate(['new'],{relativeTo: this.ru})
     this.dialog.open(TeamseditComponent);
   }

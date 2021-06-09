@@ -14,7 +14,7 @@ export class TeamResolverService implements Resolve<Team[]>{
  resolve(ars:ActivatedRouteSnapshot,rss:RouterStateSnapshot):Observable<Team[]>|Promise<Team[]> |Team[]
  {
      return this.ts.getTeams();
-    
-  }   
+
+  }
 }
 

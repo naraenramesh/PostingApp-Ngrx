@@ -1,7 +1,7 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
-import { map, tap } from 'rxjs/operators';
+import { BehaviorSubject, throwError } from 'rxjs';
+import { catchError, map, tap } from 'rxjs/operators';
 import { Associate } from './associates.model';
 
 @Injectable({providedIn:'root'})
@@ -15,19 +15,18 @@ associates: Associate[]= [
     ind:number;
     associatenameSelected= new BehaviorSubject<string>('');
 
-    associatesStatus=new BehaviorSubject<Associate[]>(null); 
+    associatesStatus=new BehaviorSubject<Associate[]>(null);
 
-    empnameSelected=new BehaviorSubject<string>('');
 
 getAssociates()
 {
 
-    return this.http.get<any>('http://localhost:3000/api/associates')
+    return this.http.get<any>('https://mirrorview.herokuapp.com/api/associates')
     .pipe(map((empdata)=>
     {
    return  empdata.map((info)=>
    {
-    return { 
+    return {
       empId:info._id,
     empname:info.empname,
   empcogemailid:info.empcogemailid,
@@ -36,11 +35,15 @@ getAssociates()
   empUIN:info.empUIN,
   empTeams:info.empTeams
 }
-   })  
+   })
     }),tap(emp_loaded => {
       this.associates=emp_loaded;
-      console.log(this.associates)
+      //console.log(this.associates)
       this.associatesStatus.next(this.associates.slice())
+      }),catchError((em:HttpErrorResponse)=>{
+
+        let errorMessage=em.error.error_msg
+        return throwError(errorMessage);
       })
     )
   }
@@ -75,38 +78,93 @@ return this.associates.map(tname =>tname.empname.toUpperCase())
 
 deleteAssociate(name1:string)
 {
-  this.http.delete("http://localhost:3000/api/associates/" + name1)
-  .subscribe();
-    this.ind =this.associates.indexOf(this.associates.find(name=>name.empname===name1))
-    this.associates.splice(this.ind,1);
-this.associatesStatus.next(this.associates.slice())
+ return this.http.delete<any>("https://mirrorview.herokuapp.com/api/associates/" + name1).pipe(map((empdata)=>
+  {
+ return  empdata.map((info)=>
+ {
+  return {
+    empId:info._id,
+  empname:info.empname,
+empcogemailid:info.empcogemailid,
+empBTemailid:info.empBTemailid,
+empcontactno:info.empcontactno,
+empUIN:info.empUIN,
+empTeams:info.empTeams
+}
+ })
+  }),tap(emp_loaded => {
+    this.associates=emp_loaded;
+    //console.log(this.associates)
+    this.associatesStatus.next(this.associates.slice())
+    }),catchError((em:HttpErrorResponse)=>{
+console.log(em);
+      let errorMessage=em.error.error
+      return throwError(errorMessage);
+    })
+  )
+
+
 }
 
 updateAssociate(associate:string,associateContent:Associate)
 {
-     this.ind =this.associates.indexOf(this.associates.find(name=>name.empname===associate))
-    this.associates[this.ind]=associateContent;
-    console.log(associateContent)
-this.associatesStatus.next(this.associates.slice());
-this.http.put('http://localhost:3000/api/associates/'+ associate ,associateContent)
-.subscribe();
+
+return this.http.put<any>('https://mirrorview.herokuapp.com/api/associates/'+ associate ,associateContent)
+.pipe(catchError((em:HttpErrorResponse)=>{
+  //console.log(em);
+  let errorMessage=em.error.error
+  return throwError(errorMessage);
+}),map((info)=>
+    {
+      //console.log(info)
+
+    return {
+      empId:info._id,
+    empname:info.empname,
+  empcogemailid:info.empcogemailid,
+  empBTemailid:info.empBTemailid,
+  empcontactno:info.empcontactno,
+  empUIN:info.empUIN,
+  empTeams:info.empTeams
 }
-addAssociate(associate:Associate)
-{
-       console.log("going to add");
-this.http.post<{associateId:string}>('http://localhost:3000/api/associates',associate)
-.subscribe(response => {
- 
-const id=response.associateId;
-console.log(id)
-associate.empId=id;
-console.log(associate);
-this.associates.push(associate);
-    this.associatesStatus.next(this.associates.slice());
- 
-});
+
+    }),tap(emp_loaded => {
+           this.associates[this.associates.indexOf(this.associates.find(as => as.empId === associateContent.empId))           ]=emp_loaded;
+      //console.log(this.associates)
+      this.associatesStatus.next(this.associates.slice())
+      })
+
+)
 
 }
-  
+
+addAssociate(associate:Associate)
+{
+return this.http.post<any>('https://mirrorview.herokuapp.com/api/associates',associate)
+.pipe(catchError((em:HttpErrorResponse)=>{
+  let errorMessage=em.error.error
+  return throwError(errorMessage);
+}),map((info)=>
+    {
+      //console.log(info)
+
+    return {
+      empId:info._id,
+    empname:info.empname,
+  empcogemailid:info.empcogemailid,
+  empBTemailid:info.empBTemailid,
+  empcontactno:info.empcontactno,
+  empUIN:info.empUIN,
+  empTeams:info.empTeams
+}
+
+    }),tap(emp_loaded => {
+      this.associates.push(emp_loaded);
+      //console.log(this.associates)
+      this.associatesStatus.next(this.associates.slice())
+      })
+
+)}
+
 
 }

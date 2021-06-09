@@ -1,0 +1,58 @@
+
+.cl{
+  height:100%;
+  overflow: auto;
+    background-repeat: no-repeat;
+    background-size: 40.5rem 70rem;
+    background-position: center;
+      background-image: url('src/app/pictures/BT_logo.jpg');
+
+      font-family: Georgia, 'Times New Roman', Times, serif;
+      color:#D90E18
+  
+    }
+
+
+    @media(min-width:25rem)
+    {
+      .cl{
+        height:100%;
+        overflow: auto;
+          background-repeat: no-repeat;
+          background-size: 66.5rem 70rem;;
+          background-position: center;
+            background-image: url('src/app/pictures/BT_logo.jpg');
+            font-family: Georgia, 'Times New Roman', Times, serif;
+            color:#D90E18
+        
+          }
+    }
+
+    @media(min-width:40rem)
+    {
+      .cl{
+        height:100%;
+        overflow: auto;
+          background-repeat: no-repeat;
+          background-size: 80.5rem 70rem;;
+          background-position: center;
+            background-image: url('src/app/pictures/BT_logo.jpg');
+            font-family: Georgia, 'Times New Roman', Times, serif;
+            color:#D90E18
+        
+          }
+    }
+  @media(min-width:50rem)
+  {
+    .cl{
+      height:100%;
+      overflow: auto;
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-position: center;
+          background-image: url('src/app/pictures/BT_logo.jpg');
+          font-family: Georgia, 'Times New Roman', Times, serif;
+          color:#D90E18
+      
+        }
+  }

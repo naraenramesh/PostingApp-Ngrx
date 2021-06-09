@@ -1,0 +1,208 @@
+
+tr.example-detail-row {
+  height: 0;
+}
+
+tr.example-issue-row:not(.example-expanded-row):hover {
+  background: whitesmoke;
+}
+
+tr.example-issue-row:not(.example-expanded-row):active {
+  background: #efefef;
+}
+
+.example-form{
+  width:80%;
+  display:inline-block;
+  margin:0
+}
+
+.searchbutton{
+  margin-right: 0.5px;
+  background:white;
+  color:black;
+  font-weight: bold;
+  padding:0.5px;
+
+}
+.addbtn{
+
+  display:inline-block;
+  margin:0
+}
+.example-issue-row td {
+  border-bottom-width: 0;
+}
+
+.oncall-detail {
+  overflow: hidden;
+}
+.oncall-description{
+  width:100%;
+
+}
+.oncalldesc{
+  width:60%;
+  font-size:small;
+  display: inline-block;
+  font-family:Georgia;
+}
+
+
+table {
+width: 100%;
+background:black;
+color:white;
+table-layout: fixed;
+}
+
+
+
+mat-paginator {
+
+background:transparent;
+color:black;
+}
+
+.matInput {
+width:10%;
+}
+
+td{
+color:White;
+overflow: hidden;
+text-overflow: ellipsis;
+word-wrap: break-word;
+}
+
+th {
+overflow: hidden;
+text-overflow: ellipsis;
+word-wrap: break-word;
+color:White;
+font-weight: bold;
+}
+
+mat-label {
+color:black;
+font-family:sans-serif;
+font-style: italic;
+font-size:xx-small;
+font-weight: bold;
+}
+
+.mat-form-field .mat-date-range-input{
+
+width: 20%;
+}
+.mat-form-field{
+  width:65%
+}
+.editclass{
+  float:right;
+  display: inline-block;
+  margin:0.125rem;
+  padding:0.125rem;
+}
+
+ul {
+  margin-top: 20px;
+}
+
+li {
+  list-style:none;
+}
+
+.searchbutton{
+  background:white;
+  color:black;
+  font-weight: bolder;
+  padding:0.125rem;
+}
+
+.mat-icon{
+  color:black;
+  height:1.5625rem !important;
+  width:1.5625rem !important;
+  font-size:1.5625rem !important;
+}
+
+@media(min-width:40rem)
+
+{
+  
+td{
+  width:25%;
+color:White;
+font-size:small;
+overflow: hidden;
+  text-overflow: ellipsis;
+  word-wrap: break-word;
+}
+
+th {
+  width:25%;
+  overflow: hidden;
+  font-size:small;
+  text-overflow: ellipsis;
+  word-wrap: break-word;
+  color:White;
+  font-weight: bold;
+}
+
+.example-form{
+  width:50%;
+  display:inline-block;
+  margin:0
+}
+.mat-column-expandedDetail {
+  flex:none;
+  width:10%
+}
+.mat-icon{
+  color:black;
+  height:1.5625rem !important;
+  width:1.5625rem !important;
+  font-size:1.5625rem !important;
+}
+
+.editclass{
+  float:right;
+  display: inline-block;
+  margin:0.125rem;
+  padding:0.125rem;
+}
+
+.oncalldesc{
+  width:30%;
+  font-size:medium;
+  display: inline-block;
+  font-family:Georgia;
+}
+.matInput {
+  width:40%;
+  }
+
+  mat-label {
+    color:black;
+    font-family:sans-serif;
+    font-style: italic;
+    
+    font-size:small;
+    font-weight: bold;
+    }
+    
+.searchbutton{
+  background:white;
+  color:black;
+  font-weight: bolder;
+  padding:0.125rem;
+  margin :1.125rem;
+}
+
+.mat-form-field .mat-date-range-input{
+
+  width: 60%;
+  }
+
+}

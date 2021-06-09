@@ -28,52 +28,56 @@ associatesUpdated:Associate[];
 associatesshow:string[];
 
   ngOnInit(): void {
-this.ts.associatenameSelected.next('');  
+    this.rs.routeReuseStrategy.shouldReuseRoute = () => false;
+this.ts.associatenameSelected.next('');
     this.as.user.subscribe((data)=>
     {
+      if(data)
+      {
   this.add_associate=data.privilege;
-    })
+    }})
     if( this.add_associate !== 'Read')
     {
     this.add_trigger=true;
     }
-  
+
     this.ts.associatesStatus.subscribe((associates:Associate[])=>{
   this.associatesUpdated=associates
     })
-   
-   this.filteredOptions = this.myControl.valueChanges.pipe(
+
+   this.filteredOptions=
+    this.myControl.valueChanges.pipe(
     startWith(''),
     map(value => this._filter(value))
-  );
-  
+  )
+
   }
-  
+
   myControl = new FormControl();
-  
+
     filteredOptions: Observable<string[]>;
-  
-  
-    private _filter(value: string): string[] {
+
+     private _filter(value: string): string[] {
       const filterValue = value.toLowerCase();
      this.associatesshow=this.ts.getAssociateNames();
       return this.associatesshow.filter(option => option.toLowerCase().indexOf(filterValue) === 0);
     }
-  
-  
-  
+
+
+
   Onselect(evt:any)
     {
       this.add_trigger=false;
       this.rs.navigate([evt.option.value], {relativeTo:this.ru});
       this.ts.associatenameSelected.next(evt.option.value);
 
-  
+this.myControl.reset('');
+//this.myControl.get(evt.option.value).reset();
     }
-  
+
     OnaddnewAssociate()
     {
-      
+
       this.dialog.open(AssociatesEditComponent);
     }
 

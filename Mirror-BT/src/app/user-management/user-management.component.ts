@@ -33,12 +33,12 @@ console.log("data " +del_email)
 delObs=this.authService.deleteUser(del_email);
 delObs.subscribe(
   resData => {
-    console.log(resData);
+    //console.log(resData);
     this.isLoading = false;
     this.hs.openSnackBar('User Deleted Successfully','Hurray!');
   },
   errorMessage => {
-    console.log(errorMessage);
+    //console.log(errorMessage);
     this.error = errorMessage;
     this.hs.openSnackBar(errorMessage,'Error');
     this.isLoading = false;
@@ -65,7 +65,7 @@ console.log(email,password,privilege)
     
     authObs.subscribe(
       resData => {
-        console.log(resData);
+        //console.log(resData);
         this.isLoading = false;
         this.hs.openSnackBar('User Created','Hurray!');
       },

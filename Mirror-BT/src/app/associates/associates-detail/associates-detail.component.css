@@ -1,0 +1,36 @@
+.example-card {
+  max-width: 500px;
+  min-height: 300px;
+  background:rgba(0, 0, 0, 0.555);
+  color:White;
+}
+
+.mat-card-header-text{
+  width: 100%;
+}
+
+.mat-card-title {
+  color:white;
+  font-weight: bolder;
+  font-size:x-large !important;
+}
+
+ul {
+  margin-top: 20px;
+}
+
+li {
+  list-style:none;
+
+}
+
+.empsideheading{
+font-weight: bold;
+display: inline-block;
+width:30%;
+font-size:small !important;
+}
+.cont{
+  display:inline-block;
+}
+

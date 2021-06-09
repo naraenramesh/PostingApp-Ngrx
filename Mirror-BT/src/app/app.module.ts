@@ -51,18 +51,19 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { OncalldetailComponent } from './oncall/oncalldetail/oncalldetail.component';
 import { OncalleditComponent } from './oncall/oncalledit/oncalledit.component';
 import { SatDatepickerModule, SatNativeDateModule } from 'saturn-datepicker';
+import { AssociateResolverService } from './associates/associates.resolver';
 
 const approute: Routes =[
   {path: '', redirectTo: '/begin', pathMatch:'full'},
-  {path: 'begin', component: StartMirrorComponent,canActivate:[AuthGuard],resolve:[TeamResolverService],
+  {path: 'begin', component: StartMirrorComponent,canActivate:[AuthGuard],resolve:[TeamResolverService,AssociateResolverService],
   children: [
     {path: 'UAM', component: UserManagementComponent},
-    {path: 'associates', component: AssociatesComponent,children:[
+    {path: 'associates', component: AssociatesComponent,resolve:[AssociateResolverService],children:[
       {path: 'new', redirectTo: ''}
     ,{path: ':name', component: AssociatesDetailComponent,
     }
     ]},
-    
+
   {path: 'teams', component: TeamsComponent,
 children:[
   {path: 'new', redirectTo: ''}
@@ -74,7 +75,7 @@ children:[
 ]
 
 @NgModule({
-  declarations: [DropdownDirective,AppComponent, HeaderComponent, 
+  declarations: [DropdownDirective,AppComponent, HeaderComponent,
     TeamsComponent, TeamsListComponent, TeamDetailComponent, AssociatesComponent,
      AssociatesListComponent, AssociatesDetailComponent, AssociatesEditComponent,
       TeammembersComponent, TeamseditComponent, AuthenticationComponent,
@@ -82,7 +83,9 @@ children:[
   imports: [
     BrowserModule,
     HttpClientModule,
-    RouterModule.forRoot(approute),
+    RouterModule.forRoot(approute, {
+      onSameUrlNavigation: 'reload'
+    }),
     MatPaginatorModule,
     MatAutocompleteModule,
     MatMenuModule,
@@ -104,12 +107,12 @@ children:[
     FormsModule,
 ReactiveFormsModule,
 BrowserAnimationsModule,
-SatDatepickerModule, 
+SatDatepickerModule,
 SatNativeDateModule
   ],
   bootstrap: [AppComponent],
 
-  providers: [TeamService, AuthService,AuthGuard,HelperService,MatDatepicker,TeamResolverService,
+  providers: [TeamService,AuthService,AuthGuard,HelperService,MatDatepicker,AssociateResolverService,TeamResolverService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptorService,

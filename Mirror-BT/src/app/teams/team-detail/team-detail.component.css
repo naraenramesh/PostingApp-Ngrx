@@ -1,9 +1,128 @@
+
 .example-card {
-    max-width: 400px;
-    min-height: 100px;
+  width: 30.25rem;
+  background:rgba(0, 0, 0, 0.555);
+    color:White;
+}
+
+@media(min-width:32.5rem)
+{
+.example-card {
+    width: 51.25rem;
+    background:rgba(0, 0, 0, 0.555);
+    color:White;
   }
-  
+  .mat-tab-label{
+    color:black;
+    font-family:sans-serif;
+  font-size:medium;
+  font-weight: bold;
+  }
+ 
+  .mat-card-title {
+    color:white;
+    font-weight: bold;
+    font-size:large !important;
+  }
+
+
+  .mat-card-subtitle {
+    font-weight:medium;
+    color:white;
+  }
+
+  .teamdesc{
+    font-size:medium;
+    font-family:Georgia;
+  }
+
+.teamsideheading{
+  font-weight: bold;
+  display: inline-block;
+  font-size:small !important;
+}
+ }
+@media(min-width:45rem)
+{
+.example-card {
+    width: 71.25rem;
+    background:rgba(0, 0, 0, 0.555);
+    color:White;
+  }
+  .mat-tab-label{
+    color:black;
+    font-family:sans-serif;
+  font-size:medium;
+  font-weight: bold;
+  }
+ 
+  .mat-card-title {
+    color:white;
+    font-weight: bold;
+    font-size:x-large !important;
+  }
+
+
+  .mat-card-subtitle {
+    font-weight:medium;
+    color:white;
+  }
+
+  .teamdesc{
+    font-size:medium;
+    font-family:Georgia;
+  }
+
+.teamsideheading{
+  font-weight: bold;
+  display: inline-block;
+  font-size:small !important;
+}
+ }
+  .mat-card-header-text{
+    width: 100%;
+  }
   .example-header-image {
     background-image: url('src/app/pictures/BT_logo.jpg');
     background-size: cover;
   }
+
+  mat-paginator {
+    background:transparent;
+    color:black
+  }
+  .mat-tab-label{
+    color:black;
+    font-family:sans-serif;
+  font-size:small;
+  font-weight: bold;
+  }
+
+  button{
+    padding:0.932rem;
+  }
+
+
+
+  .mat-card-title {
+    color:white;
+    font-weight: bold;
+    font-size:medium !important;
+  }
+
+
+  .mat-card-subtitle {
+    font-weight:small;
+    color:white;
+  }
+
+  .teamdesc{
+    font-size:small;
+    font-family:Georgia;
+  }
+
+.teamsideheading{
+  font-weight: bold;
+  display: inline-block;
+  font-size:small !important;
+}

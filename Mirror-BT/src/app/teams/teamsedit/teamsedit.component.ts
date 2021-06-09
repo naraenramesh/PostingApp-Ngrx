@@ -12,7 +12,7 @@ import { TeamService } from '../team.service';
 })
 export class TeamseditComponent implements OnInit {
   constructor(private ts:TeamService,private ru:ActivatedRoute,
-    private rs:Router,private hs:HelperService) 
+    private rs:Router,private hs:HelperService)
   {}
   teamnames:string[];
   tname:string;
@@ -20,6 +20,8 @@ export class TeamseditComponent implements OnInit {
   teamForm:FormGroup;
   edit_trigger:boolean=false;
   ngOnInit() {
+
+
     this.edit_trigger=false;
 
     this.ts.teamnameSelected.subscribe((name:string)=>{
@@ -32,7 +34,7 @@ this.edit_trigger=true;
 this.initForm();
 
   }
- 
+
    initForm()
   {
     let name='';
@@ -46,46 +48,53 @@ if(this.edit_trigger)
     mail=this.teamSel.teammailId;
     desc=this.teamSel.teamdesc;
     queue=this.teamSel.teamqueue;
- 
-    this.teamnames=this.ts.getExlcudeTeamNames(name); 
+
   }
 
-  this.teamnames=this.ts.getExlcudeTeamNames(); 
+
 
   this.teamForm =new FormGroup({
-teamname:new FormControl(name,[Validators.required,this.forbiddennames.bind(this)]),
+    id:new FormControl(''),
+teamname:new FormControl(name,[Validators.required]),
 teammailId: new FormControl(mail,[Validators.required, Validators.email]),
 teamdesc: new FormControl(desc),
-teamqueue:new FormControl(queue)    
+teamqueue:new FormControl(queue)
       })
 
-         
+
     }
- 
-forbiddennames(control:FormControl):{[s:string]:boolean}
-{ 
- 
-if(this.teamnames.indexOf(control.value.toUpperCase())!== -1)
-  return {'nameforbid':true}
-  else
-  return null;
-}
+
 
 OnSubmit()
 {
 
   if(this.edit_trigger)
   {
-  this.ts.updateTeam(this.tname,this.teamForm.value);
-  
-this.rs.navigate(['../'],{relativeTo:this.ru})
-this.hs.openSnackBar("Team Details Updated","Success")
+this.teamForm.patchValue({id:this.teamSel.id});
+console.log(this.teamForm.value)
+this.ts.updateTeam(this.tname,this.teamForm.value).subscribe(emp_loaded => {
+
+  this.hs.openSnackBar("Team Details Updated","Success")
+  this.rs.navigate(['../../teams'],{relativeTo:this.ru})
+    },
+    errorMessage => {
+      this.hs.openSnackBar('errorMessage','Error');
+
+    }
+  );
 }
 else
 {
-  this.ts.addTeam(this.teamForm.value);
-  this.rs.navigate(['../'],{relativeTo:this.ru})
-this.hs.openSnackBar("New Team Details Added","Success")
+  this.ts.addTeam(this.teamForm.value).subscribe(emp_loaded => {
+
+    this.hs.openSnackBar("Team Details Added","Success")
+    this.rs.navigate(['../teams'],{relativeTo:this.ru})
+      },
+      errorMessage => {
+        this.hs.openSnackBar('errorMessage','Error');
+
+      }
+    );
 }
 this.ts.teamnameSelected.next('');
 }

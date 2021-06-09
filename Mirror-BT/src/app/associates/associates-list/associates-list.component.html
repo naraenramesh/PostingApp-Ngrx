@@ -1,14 +1,11 @@
-<div class="row">
-    <div class="col-md-4">
-
-    <form class="example-form">
+    <form class="team-form">
         <mat-form-field class="example-full-width">
+          <mat-label>Select an associate</mat-label>
           <input type="text"
-                 placeholder="Select an associate"
                  aria-label="Number"
                  matInput
                  [formControl]="myControl"
-                 [matAutocomplete]="auto">
+                 [matAutocomplete]="auto" >
           <mat-autocomplete
           (optionSelected)="Onselect($event)" autoActiveFirstOption #auto="matAutocomplete">
         <mat-option
@@ -17,16 +14,14 @@
             </mat-option>
           </mat-autocomplete>
         </mat-form-field>
+
+
+
+      <button class="teamselectbtn" [disabled]="!add_trigger" mat-mini-fab color="white" (click)="OnaddnewAssociate()">
+        <mat-icon>plus_one</mat-icon>
+      </button>
+
       </form>
 
 
 
-    </div>
-
-    <div class="col">
-
-      <button [disabled]="!add_trigger" mat-mini-fab color="accent" (click)="OnaddnewAssociate()">
-        <mat-icon>plus_one</mat-icon>
-      </button>
-    </div>
-</div>

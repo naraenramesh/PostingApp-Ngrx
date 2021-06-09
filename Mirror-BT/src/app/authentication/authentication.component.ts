@@ -15,50 +15,47 @@ import { AuthResponseData, AuthService } from './auth.service';
 export class AuthenticationComponent implements OnDestroy {
     isLoading = false;
     error: string = null;
-    
+
     private authObs: Subscription;
-  
+
     constructor(
       private authService: AuthService,
       private router: Router,
  private hs:HelperService,)
  {}
-  
-  
+
+
     onSubmit(form: NgForm) {
-      
+
       const email = form.value.email;
       const password = form.value.password;
-  console.log(email,password)
+  //console.log(email,password)
       let authObs: Observable<AuthResponseData>;
-  
+
       this.isLoading = true;
-  
+
         authObs = this.authService.login(email, password);
-        
+
       authObs.subscribe(
         resData => {
-          console.log(resData);
+          //console.log(resData);
           this.isLoading = false;
-          this.hs.openSnackBar('Logged in','Hurray!');
-          this.router.navigate(['/begin']);
         },
         errorMessage => {
-          console.log(errorMessage);
           this.error = errorMessage;
           this.hs.openSnackBar(errorMessage,'Error');
           this.isLoading = false;
         }
       );
-  
+
       form.reset();
     }
-    
+
     ngOnDestroy() {
       if (this.authObs) {
         this.authObs.unsubscribe();
       }
     }
-  
-  
+
+
 }

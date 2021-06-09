@@ -102,7 +102,7 @@ router.put('/',(req,res,next)=>
     UserModel.updateOne({email:req.body.email},{$set:{privilege:req.body.privilege}})
     .then((updres)=>
     {
-        console.log(updres)
+        //console.log(updres)
         res.status(200).json({message:"User Privilege Updated"})
     }).catch(err =>{
         res.status(404).json({message:"User update failed"})
@@ -120,7 +120,7 @@ router.put('/updatepassword',(req,res,next)=>
                 message:'User Password Updated',
                 result:result
             }).catch(err=>{
-                console.log(err)
+                //console.log(err)
                 res.status(500).json({
         error:'User Password Update failed'
 
@@ -131,7 +131,7 @@ router.put('/updatepassword',(req,res,next)=>
 })
 
 router.post('/check',(req,res,next)=>{
-  console.log("Hi")
+  //console.log("Hi")
   res.status(200).json({check:"checked"})
 })
 module.exports=router;

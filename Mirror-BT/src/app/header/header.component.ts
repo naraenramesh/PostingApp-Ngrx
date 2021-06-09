@@ -25,9 +25,11 @@ export class HeaderComponent implements OnInit,OnDestroy {
     this.userSub = this.as.user.subscribe(user => {
       this.isAuthenticated = !!user;
     });
-    
+
       this.as.user.subscribe((data)=>
       {
+        if(data)
+        {
         if(this.isAuthenticated)
         {
           this.uname=data.username;
@@ -38,11 +40,12 @@ export class HeaderComponent implements OnInit,OnDestroy {
     this.admin_trigger=true;
     }
   }
+}
       })
-      
+
     }
-    
-  
+
+
   OnLogout()
 {
   this.admin_trigger=false;
@@ -53,17 +56,17 @@ onSubmit(form:NgForm)
 {
 
   this.pwd = form.value.password;
-  console.log(form)
+  //console.log(form)
  this.as.updatePassword(this.email,this.pwd).subscribe(
   resData => {
-    console.log(resData);
+    //console.log(resData);
     this.hs.openSnackBar('Login again with updated Password','Hurray!');
    this.OnLogout();
   },
   errorMessage => {
-  console.log(errorMessage)
+  //console.log(errorMessage)
     this.hs.openSnackBar(errorMessage,'Error');
-      
+
   }
 );
 form.reset();

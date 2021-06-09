@@ -1,13 +1,83 @@
 
 table {
     width: 100%;
+    background:rgba(0, 0, 0, 0.555);
+    color:white;
+  }
+
+  mat-paginator {
+ 
+    background:transparent;
+    color:black;
+  }
+
+  .matInput {
+    width:70%;
   }
   
   .mat-form-field {
-    font-size: 14px;
-    width: 100%;
+  
+    width: 60%;
   }
   
-  td, th {
-    width: 25%;
+  td{
+  width: 2%;
+    color:White;
+    font-size:small;
+    text-overflow: ellipsis;
+    word-wrap: break-word;
+  } 
+  th {
+    width: 2%;
+    color:White;
+    font-weight: bold;
+    text-overflow: ellipsis;
+    word-wrap: break-word;
   }
+
+  mat-label {
+    color:black;
+    font-family:sans-serif;
+    font-style: italic;
+    
+    font-size:small;
+    font-weight: bold;
+  }
+
+@media(min-width:40rem)
+{
+  .matInput {
+    width:40%;
+  }
+  
+  .mat-form-field {
+  
+    width: 40%;
+  }
+  
+  td{
+  width: 15%;
+    color:White;
+      text-overflow: ellipsis;
+  word-wrap: break-word;
+  
+  } 
+  th {
+    width: 15%;
+    color:White;
+    font-weight: bold;
+    text-overflow: ellipsis;
+    word-wrap: break-word;
+  }
+
+  mat-label {
+    color:black;
+    font-family:sans-serif;
+    font-style: italic;
+    
+    font-size:medium;
+    font-weight: bold;
+  }
+
+
+}

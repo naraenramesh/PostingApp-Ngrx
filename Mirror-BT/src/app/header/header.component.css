@@ -1,0 +1,172 @@
+.navbar{
+
+  background:rgba(0, 0, 0, 0.555);
+  color: rgb(255, 255, 255);
+  text-decoration: none;
+  margin:0;
+  vertical-align:middle;
+}
+
+.list-items {
+  margin:0;
+  padding:0;
+}
+
+.list-items a {
+  text-decoration: none;
+  color:white;
+}
+.userbutton {
+  line-height: 0;
+  font-weight: bold;
+}
+
+
+.list-items a:hover
+  {
+    color:black !important;
+    background-color: white;
+box-shadow:white;
+padding:0.9375rem;
+
+  }
+
+  .active {
+    color:black !important;
+    background-color: white;
+box-shadow:white;
+padding:0.4375rem;
+  }
+
+
+.list-item {
+  padding:0.4375rem;
+  margin-top:0.225rem;
+  list-style:none;
+  font-family: Helvetica, sans-serif;
+font-size: small;
+font-weight: bold;
+}
+
+.img-logo{
+  width: 0.375rem;
+  height: 0.375rem;
+  border-radius: 20%;
+  overflow: hidden;
+  line-height: 0;
+
+  }
+
+
+  @media(min-width: 32rem)
+  {
+  .special{
+    float:right;
+    margin-top:0.75rem ;
+    
+  }
+  
+  
+  .specialleft{
+    float:left;
+    
+  }
+  
+  
+
+.list-items a:hover
+{
+  color:black !important;
+  background-color: white;
+box-shadow:white;
+padding:0.9375rem;
+
+}
+
+.active {
+  color:black !important;
+  background-color: white;
+box-shadow:white;
+padding:0.4375rem;
+}
+
+
+.list-item {
+  display:inline-block;
+padding:0.4375rem;
+margin-top:0.225rem;
+list-style:none;
+font-family: Helvetica, sans-serif;
+font-size: small;
+font-weight: bold;
+}
+
+.img-logo{
+width: 0.375rem;
+height: 0.375rem;
+border-radius: 20%;
+overflow: hidden;
+line-height: 0;
+display:inline-block;
+}
+
+  }
+  
+  
+    
+
+@media(min-width: 40rem)
+{
+.special{
+  float:right;
+  margin-top:0.75rem ;
+  
+}
+
+
+.specialleft{
+  float:left;
+  
+}
+
+
+.list-items a:hover
+  {
+    color:black !important;
+    background-color: white;
+box-shadow:white;
+padding:0.9375rem;
+
+  }
+
+  .active {
+    color:black !important;
+    background-color: white;
+box-shadow:white;
+padding:0.9375rem;
+  }
+
+
+.list-item {
+  display:inline-block;
+  padding:0.9375rem;
+  margin-top:0.625rem;
+  list-style:none;
+  font-family: Helvetica, sans-serif;
+font-size: medium;
+font-weight: bold;
+}
+
+.img-logo{
+  width: 2.875rem;
+  height: 1.875rem;
+  border-radius: 20%;
+  overflow: hidden;
+  line-height: 0;
+  display: inline-block;
+  }
+  
+}
+
+
+  

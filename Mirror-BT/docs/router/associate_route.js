@@ -2,9 +2,9 @@ const express=require("express");
 const AssociateModel= require('../models/associate');
 const router=express.Router();
 
-router.post('/',(req,res,next)=>
+router.post('/',async(req,res,next)=>
 {
-    
+try{
     const associate=new AssociateModel({
         empname: req.body.empname,
         empcogemailid:req.body.empcogemailid,
@@ -13,64 +13,65 @@ router.post('/',(req,res,next)=>
         empUIN:req.body.empUIN,
 		empTeams:req.body.empTeams
     })
-
-    console.log(req);
-    console.log(associate);
-
-    console.log("btemail " + req.body.empBTemailid)
-associate.save().then((associatedata)=>{
-    console.log(associatedata)
-    
-res.status(201).json({
-    associateId:associatedata._id
-});
+const doc =await associate.save()
+res.status(201).json(doc);
+}
+catch(err){
+  //console.log(err);
+  res.status(401).json({error:'Unable to add associate'})
+}
 
 });
-});
 
-router.put('/:associatename',(req,res,next)=>
+router.put('/:associatename',async(req,res,next)=>
 {
-    const associate={
-        id:req.body.empid,
-        empname: req.body.empname,
-        empcogemailid:req.body.empcogemailid,
-        empBTemailid:req.body.empBTemailid,
-        empcontactno:req.body.empcontactno,
-        empUIN:req.body.empUIN,
-		empTeams:req.body.empTeams
-    }
-AssociateModel.updateOne({
-    empname:req.params.associatename}, associate).then((associatedata)=>{
-   
-    
-res.status(200).json();
+  try{
+
+const out= await AssociateModel.updateOne({_id:req.body.empId},{$set:{
+  empname: req.body.empname,
+  empcogemailid:req.body.empcogemailid,
+  empBTemailid:req.body.empBTemailid,
+  empcontactno:req.body.empcontactno,
+  empUIN:req.body.empUIN,
+empTeams:req.body.empTeams
+}})
+
+
+const doc =await AssociateModel.findOne({_id:req.body.empId})
+
+res.status(200).json(doc);
+}
+catch(err){
+  //console.log(err);
+  res.status(400).json({error:'Unable to update associate'})
+}
 
 });
-});
 
-router.get('/',(req,res,next)=>
+router.get('/', async(req,res,next)=>
 {
-   AssociateModel.find().then((doc)=>{
-    
-//const doc= [
-  //       {empname:'Narayanan',empcogemailid:'dfy',
-//empBTemailid:'frr',
-  //  empcontactno:'3344444444444',
-    //empUIN:'45454545',
-    //empTeams:['nexus','bsm']}]
-      
-    console.log(doc);
+  try{
+   const doc =await AssociateModel.find();
     res.status(200).json(doc);
-   // AssociateModel.remove().then(()=> console.log("Deleted"))
+  }
+  catch(err){
+    //console.log(err);
+    res.status(400).json({error:'Unable to fetch associate'})
+  }
 })
-});
 
-router.delete('/:associatename',(req,res,next)=>
+router.delete('/:associatename',async(req,res,next)=>
 {
-    AssociateModel.deleteOne({empname:req.params.associatename}).then((result)=>
-    {
-        res.status(200).json();
-    });
+  try{
+    const doc = await AssociateModel.deleteOne({empname:req.params.associatename})
+    const output= await AssociateModel.find();
+    res.status(200).json(output)
+  }
+  catch(err){
+    //console.log(err);
+    res.status(400).json({error:'Unable to delete associate'})
+  }
+
 }
 )
 

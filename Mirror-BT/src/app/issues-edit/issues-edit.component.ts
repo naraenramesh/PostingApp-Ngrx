@@ -13,7 +13,7 @@ import { TeamService } from '../teams/team.service';
 })
 export class IssuesEditComponent implements OnInit {
   constructor(private ts:IssuesService,private ru:ActivatedRoute,
-    private rs:Router,private hs:HelperService, private tservice:TeamService) 
+    private rs:Router,private hs:HelperService, private tservice:TeamService)
   {}
   issue_titles:string[];
   iname:string;
@@ -25,7 +25,7 @@ export class IssuesEditComponent implements OnInit {
     this.edit_trigger=false;
 this.tservice.teamnameSelected.subscribe((name:string)=>{
   this.tname=name;
-  console.log("ttname is" + name)
+  //console.log("ttname is" + name)
   })
     this.ts.issue_titleSelected.subscribe((sel_issue:Issues)=>{
 this.issueSel=sel_issue;
@@ -37,7 +37,7 @@ this.edit_trigger=true;
 this.initForm();
 
   }
- 
+
    initForm()
   {
 let  issue_title='';
@@ -47,7 +47,7 @@ let  issue_type='';
 let  related_team='';
 let  issue_status='';
 let  issue_updates='';
-  
+
 if(this.edit_trigger)
 {
      issue_title=this.issueSel.issue_title;
@@ -57,11 +57,10 @@ if(this.edit_trigger)
     issue_status=this.issueSel.issue_status;
  issue_desc=this.issueSel.issue_desc;
     issue_updates=this.issueSel.issue_updates;
- 
-    this.issue_titles=this.ts.getExlcudeIssuesNames(name); 
+
   }
 
-  this.issue_titles=this.ts.getExlcudeIssuesNames(); 
+  this.issue_titles=this.ts.getExlcudeIssuesNames();
 
   this.issuesForm =new FormGroup({
 issue_title:new FormControl(issue_title,[Validators.required]),
@@ -70,13 +69,13 @@ issue_type: new FormControl(issue_type,[Validators.required]),
 related_team: new FormControl(related_team),
 issue_status:new FormControl(issue_status,[Validators.required]),
 issue_desc:new FormControl(issue_desc,[Validators.required]),
-issue_updates:new FormControl(issue_updates)   
+issue_updates:new FormControl(issue_updates)
       })
     }
- 
+
 forbiddennames(control:FormControl):{[s:string]:boolean}
-{ 
- 
+{
+
 if(this.issue_titles.indexOf(control.value.toUpperCase())!== -1)
   return {'nameforbid':true}
   else
@@ -88,20 +87,31 @@ OnSubmit()
 
   if(this.edit_trigger)
   {
-  this.ts.updateIssue(this.issueSel.issueId,this.issuesForm.value);
-  
-this.rs.navigate(['../'],{relativeTo:this.ru})
-this.hs.openSnackBar("Issue Details Updated","Success")
-}
+  this.ts.updateIssue(this.issueSel.issueId,this.issuesForm.value).subscribe(emp_loaded => {
+
+    this.hs.openSnackBar("Issue Details Updated","Success")
+    this.rs.navigate(['../teams'],{relativeTo:this.ru})
+      },
+      errorMessage => {
+        this.hs.openSnackBar('errorMessage','Error');
+
+      }
+    );
+    }
 else
 {
-  console.log("Tname"+ this.tname);
-
   this.issuesForm.patchValue({related_team:this.tname})
-console.log(this.issuesForm.value)
-  this.ts.addIssue(this.issuesForm.value);
-  this.rs.navigate(['../'],{relativeTo:this.ru})
-this.hs.openSnackBar("New Issue Details Added","Success")
+
+  this.ts.addIssue(this.issuesForm.value).subscribe(emp_loaded => {
+
+    this.hs.openSnackBar("New Issue Added","Success")
+    this.rs.navigate(['../teams'],{relativeTo:this.ru})
+      },
+      errorMessage => {
+        this.hs.openSnackBar('errorMessage','Error');
+
+      }
+    );
 }
 this.ts.issue_titleSelected.next(null);
 }

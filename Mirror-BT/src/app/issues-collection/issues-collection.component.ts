@@ -16,57 +16,44 @@ import { IssuesService } from './issues_service';
   templateUrl: './issues-collection.component.html',
   styleUrls: ['./issues-collection.component.css'],
   animations: [
-    trigger('detailExpand', [
-      state('collapsed', style({height: '0px', minHeight: '0'})),
-      state('expanded', style({height: '*'})),
-      transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
-    ]),
-  ],
+    trigger('detailExpand', [ state('collapsed, void', style({ height: '0px' })), state('expanded', style({ height: '*' })), transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')), transition('expanded <=> void', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')) ])],
 })
 export class IssuesCollectionComponent implements OnInit {
 
   constructor(private as:IssuesService,private ts:TeamService,private hs:HelperService,
-    private rs:Router,private ru:ActivatedRoute,private dialog:MatDialog) { 
-    
+    private rs:Router,private ru:ActivatedRoute,private dialog:MatDialog) {
+      this.dataSource = new MatTableDataSource(this.issues_list);
+
   }
   enable_edit=false;
 tname:string;
 isLoading:boolean
-matID:number;
+matID:String;
 sel_issue:Issues;
   issues_list:Issues[];
-  ngOnInit() {
-    
-    this.ru.params.subscribe((ps:Params)=>{
-      if(ps['name'])
-      {
-        
-        this.tname=ps['name'];
-        this.as.getIssues(this.tname).subscribe();
-        }
-      })
+ async ngOnInit() {
+  this.ru.params.subscribe((ps:Params)=>{
+    if(ps['name'])
+    {
 
-    this.as.issuesStatus.subscribe((iss:Issues[])=>{
-      this.issues_list=iss;
-      this.dataSource = new MatTableDataSource(this.issues_list);
-  
+      this.tname=ps['name'];}
     });
-        
-    
-  }
- columnsToDisplay: string[] = ['issueId','issue_title','issue_date','issue_type',
- 'issue_status'];
+    this.issues_list= await this.as.getIssues(this.tname).toPromise();
+
+      this.dataSource = new MatTableDataSource(this.issues_list);
+
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort= this.sort
+
+    }
+
+ columnsToDisplay: string[] = ['issueId','issue_title','issue_date','issue_type','issue_status'];
   dataSource: MatTableDataSource<Issues>;
   expandedElement: Issues | null;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
-
-  ngAfterViewInit() {
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
-  }
 
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
@@ -81,26 +68,27 @@ onAddIssue()
 {
   this.ts.teamnameSelected.next(this.tname);
   this.dialog.open(IssuesEditComponent);
-}  
-OneditIssue()
+}
+OneditIssue(row:any)
 {
-  console.log("ISSID" + this.matID);
   this.ts.teamnameSelected.next(this.tname);
-   this.sel_issue= this.issues_list[this.matID]
-  this.as.issue_titleSelected.next(this.sel_issue);
+  this.as.issue_titleSelected.next(row);
     this.dialog.open(IssuesEditComponent);
 }
 
-OnSaveID(id:number)
-{
-  this.matID=id;
-  this.enable_edit=true;
-}
-OndeleteIssue()
+OndeleteIssue(row:any)
 {
 
-  this.as.deleteIssue(this.issues_list[this.matID].issueId);
-this.rs.navigate(['../../'],{relativeTo:this.ru})
-this.hs.openSnackBar("Issue Removed","Success")
+  this.as.deleteIssue(row.issueId).subscribe(emp_loaded => {
+
+    this.hs.openSnackBar("Issue Deleted","Success")
+    this.rs.navigate(['../'],{relativeTo:this.ru})
+      },
+      errorMessage => {
+        this.hs.openSnackBar('errorMessage','Error');
+
+      }
+    );
+
 }
 }
