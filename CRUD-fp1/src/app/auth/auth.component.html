@@ -1,0 +1,14 @@
+<form #authForm="ngForm" (ngSubmit)="onsubmit(authForm)">
+
+<div class="row">
+  <label>Email</label>
+  <input ngModel name="username" type="text">
+  </div>
+  <div class="row">
+    <label>Password</label>
+    <input ngModel name="password" type="password">
+    </div>
+    <a (click)="Ontouch()">Touch her for new user</a>
+    <button type="submit">Login</button>
+
+</form>

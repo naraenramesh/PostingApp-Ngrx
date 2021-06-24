@@ -1,0 +1,14 @@
+<form [formGroup]="initForm" #postform="ngForm" (ngSubmit)="OnSubmit(postform)">
+
+<div class="row">
+  <label>Post Heading</label>
+  <input style="width:300px;height:20px" formControlName="heading" name="heading" type="text">
+</div>
+<br>
+<br>
+<div class="row">
+  <label>Post Content</label>
+  <input style="width:500px;height:40px" formControlName="content" name="content" type="textarea">
+</div>
+  <button type="submit">Submit Post</button>
+</form>

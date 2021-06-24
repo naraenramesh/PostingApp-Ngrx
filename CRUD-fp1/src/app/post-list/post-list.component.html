@@ -1,0 +1,11 @@
+<p>post-list works!</p>
+
+<button><a routerLink="/begin/post/edit">Add Post</a></button>
+<div id="border1" *ngFor="let rad of radian;let i=index">
+<h2>  {{rad.heading}}</h2>
+<p>{{rad.content}} </p>
+<button (click)="Onedit(i)">Edit</button>
+<button (click)="Ondelete(i)">Delete</button>
+<br>
+<br>
+</div>
